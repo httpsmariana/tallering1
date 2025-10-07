@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block buttons %}
+<a href="{% url 'signIn' %}" class="btn btn-success me-2">
+    Sign Out
+</a>
+{% endblock buttons %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center justify-content-center vh-100 text-center bg-light">
+    <h1 class="text-dark py-3 px-4">
+        <!-- Conditional purchase made -->
+        {% if purchaseMade %}
+            Gracias por utilizar nuestros servicios
+        <!-- Conditional purchase not made -->
+        {% elif purchaseCancel %}
+            Lamentamos que no se concretara la compra
+        <!-- End Conditional-->
+        {% endif %}
+    </h1>
+    <a href="mainMenu" class="btn btn-success mt-4">
+        <!-- Conditional purchase made -->
+        {% if purchaseMade %}
+            Volver a comprar
+        <!-- Conditional purchase not made -->
+        {% elif purchaseCancel %}
+            Volver al menú principal
+        <!-- End Conditional-->
+        {% endif %}
+    </a>
+</div>
+{% endblock content %}

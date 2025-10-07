@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block buttons %}
+<a href="{% url 'signIn' %}" class="btn btn-success me-2">
+    Sign Out
+</a>
+<a href="{% url 'mainMenu' %}" class="btn btn-success me-2">
+    Main Menu
+</a>
+{% endblock buttons %}
+
+{% block content %}
+<div class="col">
+    <div class="row">
+        <h1 class="h1 text-center">Ticket</h1>
+    </div>
+    <div class="md-6">
+        <p class="p-4">
+            A continuación, le proporcionaremos un enlace para ir directamente al WhatsApp del vendedor o, si lo desea, solamente el número de contacto para realizar la compra del producto que seleccionó.
+        </p>
+    </div>
+    <div class="list-group-item">
+        <section class="p-3">
+            <ul class="list-unstyled">
+                <li><strong>Nombre del Producto:</strong> {{ product.name }} {{ product.specificName }}</li>
+                <li><strong>Cantidad:</strong> {{ quantityOrdered }} {{ product.unit }}</li>
+                <li><strong>Vendedor:</strong> {{ product.seller }}</li>
+                <li><strong>Comprador:</strong> {{ user.name }}</li>
+            </ul>
+        </section>
+    </div>
+    <div class="mb-3">
+        <a class="btn btn-success me-2" 
+           href="https://wa.me/57{{ seller.PhoneNumber }}?text=Hola,%20deseo%20comprar%20{{ cantidad }}%20{{ producto.unit }}%20de%20{{ producto.Name }}%20{{ producto.specificName }}">
+            WhatsApp
+        </a>
+        <a class="btn btn-success" 
+           href="tel:+57{{ seller.PhoneNumber }}">
+            Llamar: {{ seller.PhoneNumber }}
+        </a>
+    </div>
+    <div class="p-3">
+        <h2 class="h2 text-center">¿Ha concretado la compra?</h2>
+        <form action="{% url 'madeAPurchase' %}" method="post" class="form-check">
+            {% csrf_token %}
+            <div class="mb-2">
+                <label class="form-check-label">
+                    <input type="checkbox" 
+                           name="purchaseMade_{{ quantityOrdered }}_{{ product.id2 }}_{{ seller.cedula }}" 
+                           id="purchaseMade_{{ quantityOrdered }}_{{ product.id2 }}_{{ seller.cedula }}" 
+                           class="form-check-input" /> 
+                    Sí
+                </label>
+            </div>
+            <div class="mb-2">
+                <label class="form-check-label">
+                    <input type="checkbox" name="no" id="no" class="form-check-input" /> 
+                    No
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                Aceptar
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
